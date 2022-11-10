@@ -36,3 +36,9 @@
     transform: rotate(360deg);
   }
 }
+
+.jigsaw-puzzle {
+  width: 50%;
+  background-color: lightgrey;
+  margin:auto;
+}

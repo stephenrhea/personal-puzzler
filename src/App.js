@@ -1,23 +1,35 @@
-import logo from './logo.svg';
 import './App.css';
+import React, {useState, useEffect} from 'react';
+import { JigsawPuzzle } from 'react-jigsaw-puzzle/lib'
+import 'react-jigsaw-puzzle/lib/jigsaw-puzzle.css'
+
+export function UploadImages() {
+  const [images, setImages] = useState([]);
+  const [imageURLs, setImageURLs] = useState([]);
+
+  useEffect(() => {
+    if (images.length < 1) return;
+    const newImageURLs = [];
+    images.forEach(image => newImageURLs.push(URL.createObjectURL(image)));
+    setImageURLs(newImageURLs);
+  }, [images]);
+
+  function onImageChange(e) {
+    setImages([...e.target.files]);
+  }
+
+  return (
+    <>
+      <input type="file" accept="image/*" onChange={onImageChange} />
+      {imageURLs.map(imageURL => <JigsawPuzzle imageSrc={imageURL} rows={2} columns={2} onSolved={() => alert('Solved!')} />)}
+    </>
+  );
+}
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <UploadImages />
     </div>
   );
 }
